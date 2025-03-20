@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms'
-import { NgIf } from '@angular/common';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -9,6 +9,15 @@ import { NgIf } from '@angular/common';
   styleUrl: './auth.component.css'
 })
 export class AuthComponent {
+  email = '';
+  password = '';
+
+  constructor(private authService: AuthService) { }
+
+  login() {
+    this.authService.login(this.email, this.password);
+  }
+
 
 }
 
