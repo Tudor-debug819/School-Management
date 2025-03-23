@@ -1,5 +1,5 @@
 # SchoolManagement
 
- [Deploy Link](9NsJeKNWjyPUFIIfnBW3fyAYZQ42)
+ [Deploy Link](school-management-gold-pi.vercel.app)
 
 
