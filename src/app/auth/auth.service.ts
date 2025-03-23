@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
+import { Firestore, doc, getDoc } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 
 
@@ -9,10 +9,10 @@ import { Router } from "@angular/router";
 })
 
 export class AuthService {
-    constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) { }
+    constructor(private auth: Auth, private firestore: Firestore, private router: Router) { }
 
     login(email: string, password: string) {
-        return this.afAuth.signInWithEmailAndPassword(email, password).then(userCredentials => {
+        return signInWithEmailAndPassword(this.auth, email, password).then(userCredentials => {
             if (userCredentials.user) {
                 this.getUserRole(userCredentials.user.uid);
             }
@@ -20,13 +20,14 @@ export class AuthService {
 
     }
 
-    getUserRole(uid: string) {
-        this.firestore.collection('users').doc(uid).get().subscribe(userDoc => {
-            if (userDoc.exists) {
-                const userData: any = userDoc.data();
-                this.redirectUser(userData.role);
-            }
-        })
+    async getUserRole(uid: string) {
+        const docRef = doc(this.firestore, `users/${uid}`);
+        const userDoc = await getDoc(docRef);
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            this.redirectUser(userData['role']);
+        }
+
 
     }
 
