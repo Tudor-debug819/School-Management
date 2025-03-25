@@ -8,6 +8,7 @@ import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -15,7 +16,8 @@ bootstrapApplication(AppComponent, {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideRouter(routes),
-    provideStore()
+    provideStore(),
+    provideEffects()
 ]
 });
 
