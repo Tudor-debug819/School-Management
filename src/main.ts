@@ -9,6 +9,8 @@ import { provideRouter } from '@angular/router';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { AuthEffects } from './app/auth/auth.effects';
+import { authReducer } from './app/auth/auth.reducer';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -16,8 +18,8 @@ bootstrapApplication(AppComponent, {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideRouter(routes),
-    provideStore(),
-    provideEffects()
+    provideStore({auth:authReducer}),
+    provideEffects([AuthEffects])
 ]
 });
 

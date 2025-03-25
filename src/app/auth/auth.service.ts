@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
 import { Firestore, doc, getDoc } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { logout } from "./auth.actions";
 
 
 @Injectable({
@@ -9,7 +11,7 @@ import { Router } from "@angular/router";
 })
 
 export class AuthService {
-    constructor(private auth: Auth, private firestore: Firestore, private router: Router) { }
+    constructor(private auth: Auth, private firestore: Firestore, private router: Router, private store: Store) { }
 
     login(email: string, password: string) {
         return signInWithEmailAndPassword(this.auth, email, password).then(userCredentials => {
@@ -44,6 +46,11 @@ export class AuthService {
                 break;
 
         }
+    }
+
+    logout() {
+        this.store.dispatch(logout());
+
     }
 
 }
