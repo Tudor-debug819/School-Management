@@ -4,9 +4,9 @@
         {{ message }}
       </div> -->
       
-      <!-- <div *ngIf="errorMessage" class="error-box">
-        {{ errorMessage }}
-      </div> -->
+      <div *ngIf="errorMessage$ | async as error" class="error-box">
+        {{ error }}
+      </div>
   
       <form #authForm="ngForm" (ngSubmit)="login()">
         <div class="form-group">
