@@ -1,6 +1,5 @@
 .home-background {
     background-image: url('background_image.jpg');
-    background-color: red;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -46,4 +45,33 @@
   p {
     font-size: 1.5rem;
     max-width: 600px;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.2rem;
+    }
+   
+    p {
+      font-size: 1.2rem;
+      padding: 0 1rem;
+    }
+   
+    .overlay {
+      padding: 1.5rem;
+    }
+  }
+   
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+   
+    p {
+      font-size: 1rem;
+    }
+   
+    .overlay {
+      padding: 1rem;
+    }
   }

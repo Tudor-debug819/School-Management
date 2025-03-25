@@ -1,41 +1,36 @@
-<div class="row">
-    <div class="col-xs-12 col-md-6 col-md-offset-3">
-      <!-- <div *ngIf="message" class="message-box">
-        {{ message }}
-      </div> -->
-      
-      <div *ngIf="errorMessage$ | async as error" class="error-box">
-        {{ error }}
-      </div>
-  
-      <form #authForm="ngForm" (ngSubmit)="login()">
-        <div class="form-group">
-          <label for="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="form-control"
-            [(ngModel)]="email"
-            required
-            email
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control"
-            [(ngModel)]="password"
-            required
-            minlength="6"
-          />
-        </div>
-          <button
-            type="submit">Login</button>  
-      </form>
-  
+<div class="login-background">
+  <div class="login-overlay">
+    <div *ngIf="loading$ | async" class="spinner-overlay">
+      <div class="spinner"></div>
     </div>
+    <form #authForm="ngForm" (ngSubmit)="login()">
+      <h2>Login</h2>
+
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
   </div>
+</div>
