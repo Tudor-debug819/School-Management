@@ -1,1 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+   
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+  }
+   
+  /* App Header Navigation */
+  .app-header {
+    background-color: #003366;
+    padding: 1rem;
+    color: white;
+  }
+   
+  .navigation ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    align-items: center;
+  }
+   
+  .navigation a,
+  .navigation button {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+   
+  .navigation a:hover,
+  .navigation button:hover {
+    text-decoration: underline;
+  }
+   
+  /* Auth Form */
+  form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 3rem auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+   
+  form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+   
+  form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+   
+  form button[type="submit"] {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+   
+  form button[type="submit"]:hover {
+    background-color: #0055aa;
+  }
+   
+  /* Message boxes */
+  .message-box {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem auto;
+    max-width: 400px;
+  }
+   
+  .error-box {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem auto;
+    max-width: 400px;
+  }
+   
+  /* Dashboard titles */
+  h1, h2 {
+    margin: 1rem auto;
+    text-align: center;
+    color: #003366;
+  }
