@@ -6,6 +6,9 @@ import {
   loadCourses,
   loadCoursesSuccess,
   loadCoursesFailure,
+  addCourse,
+  addCourseFailure,
+  addCourseSuccess
 } from './course.actions';
 import { Course } from './course.model';
 
@@ -24,6 +27,19 @@ export class CourseEffects {
         return collectionData(coursesRef, { idField: 'id' }).pipe(
           map(data => loadCoursesSuccess({ courses: data as Course[] })),
           catchError(error => of(loadCoursesFailure({ error: error.message })))
+        );
+      })
+    )
+  );
+
+  addCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addCourse),
+      mergeMap(({ course }) => {
+        const coursesRef = collection(this.firestore, 'courses');
+        return from(addDoc(coursesRef, course)).pipe(
+map(docRef => addCourseSuccess({ course: { ...course, id: docRef.id } })),
+          catchError(error => of(addCourseFailure({ error: error.message })))
         );
       })
     )
