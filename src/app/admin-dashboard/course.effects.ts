@@ -4,11 +4,14 @@ import { Firestore, collection, collectionData, addDoc, deleteDoc, doc } from '@
 import { catchError, map, mergeMap, of, from } from 'rxjs';
 import {
   loadCourses,
-  loadCoursesSuccess,
   loadCoursesFailure,
+  loadCoursesSuccess,
   addCourse,
   addCourseFailure,
-  addCourseSuccess
+  addCourseSuccess,
+  deleteCourse,
+  deleteCourseFailure,
+  deleteCourseSuccess
 } from './course.actions';
 import { Course } from './course.model';
 
@@ -38,8 +41,21 @@ export class CourseEffects {
       mergeMap(({ course }) => {
         const coursesRef = collection(this.firestore, 'courses');
         return from(addDoc(coursesRef, course)).pipe(
-map(docRef => addCourseSuccess({ course: { ...course, id: docRef.id } })),
+          map(docRef => addCourseSuccess({ course: { ...course, id: docRef.id } })),
           catchError(error => of(addCourseFailure({ error: error.message })))
+        );
+      })
+    )
+  );
+
+  deleteCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteCourse),
+      mergeMap(({ courseId }) => {
+        const courseDocRef = doc(this.firestore, `courses/${courseId}`);
+        return from(deleteDoc(courseDocRef)).pipe(
+          map(() => deleteCourseSuccess({ courseId })),
+          catchError(error => of(deleteCourseFailure({ error: error.message })))
         );
       })
     )
