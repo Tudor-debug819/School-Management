@@ -56,7 +56,7 @@ export class AuthEffects {
         }
       })
     ),
-    { dispatch: false } // This effect only triggers side effects, not actions
+    { dispatch: false } 
   );
 
   logout$ = createEffect(() =>
