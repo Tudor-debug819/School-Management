@@ -22,6 +22,7 @@ export class CourseFormComponent implements OnInit {
     isEditMode = false;
     courseId: string | null = null;
     teachers$!: Observable<any[]>;
+    students$!: Observable<any[]>;
 
     constructor(
         private fb: FormBuilder,
@@ -33,15 +34,21 @@ export class CourseFormComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.teachers$ = collectionData(collection(this.firestore,'users'),{
+        this.teachers$ = collectionData(collection(this.firestore, 'users'), {
             idField: 'id',
         }).pipe(
-            map(users =>users.filter(user => user['role'] === 'teacher'))
+            map(users => users.filter(user => user['role'] === 'teacher'))
+        );
+
+        this.students$ = collectionData(collection(this.firestore, 'users'), {
+            idField: 'id',
+        }).pipe(
+            map(users => users.filter(user => user['role'] === 'student'))
         );
 
         this.courseForm = this.fb.group({
             name: ['', Validators.required],
-            description: ['', Validators.required], teacherId: ['']
+            description: ['', Validators.required], teacherId: [''], studentIds: [[]]
         });
 
         this.courseId = this.route.snapshot.paramMap.get('id');

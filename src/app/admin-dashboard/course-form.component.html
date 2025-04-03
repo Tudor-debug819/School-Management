@@ -20,6 +20,13 @@
       </option>
     </select>
 
+    <label for="students">Assign Students:</label>
+    <select id="students" formControlName="studentIds" multiple>
+      <option *ngFor="let student of students$ | async" [value]="student.id">
+        {{ student.name || student.email }}
+      </option>
+    </select>
+
     <button type="submit" [disabled]="courseForm.invalid">
       {{ isEditMode ? "Update" : "Add" }}
     </button>
