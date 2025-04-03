@@ -90,3 +90,29 @@ button:hover:not(:disabled) {
   height: 50px;
   animation: spin 0.9s linear infinite;
 }
+
+ul{
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+li{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e9f1ff;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+li button {
+  padding: 0.3rem 0.6rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}

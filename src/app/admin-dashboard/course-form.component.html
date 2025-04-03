@@ -16,16 +16,28 @@
     <select id="teacher" formControlName="teacherId">
       <option value="">..No teacher assigned..</option>
       <option *ngFor="let teacher of teachers$ | async" [value]="teacher.id">
-        {{ teacher.name || teacher.email }}
+        {{ teacher.email }}
       </option>
     </select>
 
     <label for="students">Assign Students:</label>
-    <select id="students" formControlName="studentIds" multiple>
+    <select id="students" (change)="onStudentSelect($event)">
+      <option value="">.. Select students..</option>
       <option *ngFor="let student of students$ | async" [value]="student.id">
-        {{ student.name || student.email }}
+        {{ student.email }}
       </option>
     </select>
+
+    <div *ngIf="courseForm.get('studentIds')?.value.length>0">
+      <h3>Assigned Students: </h3>
+      <ul>
+        <li *ngFor="let studentId of courseForm.get('studentIds')?.value">
+          {{getStudentName(studentId)}}
+          <button
+          type="button" (click)="removeStudent(studentId)">Remove</button>
+        </li>
+      </ul>
+    </div>
 
     <button type="submit" [disabled]="courseForm.invalid">
       {{ isEditMode ? "Update" : "Add" }}
