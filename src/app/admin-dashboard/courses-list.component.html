@@ -1,15 +1,27 @@
-<div *ngIf="loading$ | async">Loading...</div>
+<div class="course-container">
+  <div class="course-header">
+    <h2>Courses</h2>
+    <button class="add-button" (click)="goToAddCourse()">Add Course</button>
+  </div>
 
-<div *ngIf="error$ | async as error" class="error-box">Error: {{ error }}</div>
+  <div *ngIf="loading$ | async" class="spinner-overlay">
+    <div class="spinner"></div>
+  </div>
+  <div *ngIf="error$ | async as error" class="error-box">
+    Error: {{ error }}
+  </div>
 
-<ul *ngIf="(courses$ | async) as courses; else noCourses">
-  <li *ngFor="let course of courses">
-    <span> {{ course.name }}</span>
-    <button (click)="editCourse(course)">Edit</button>
-    <button (click)="deleteCourse(course.id)">Delete</button>
-  </li>
-</ul>
+  <ul *ngIf="courses$ | async as courses; else noCourses" class="course-list">
+    <li *ngFor="let course of courses" class="course-item">
+      <span> {{ course.name }}</span>
+      <div class="course-actions">
+        <button (click)="editCourse(course)">Edit</button>
+        <button (click)="deleteCourse(course.id)">Delete</button>
+      </div>
+    </li>
+  </ul>
 
-<ng-template #noCourses>
-  <p>No courses available</p>
-</ng-template>
+  <ng-template #noCourses>
+    <p>No courses available</p>
+  </ng-template>
+</div>

@@ -1,0 +1,15 @@
+<div class="form-container">
+  <h2>{{ isEditMode ? 'Edit Course' : 'Add Course' }}</h2>
+ 
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input id="name" formControlName="name" type="text" />
+ 
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description" rows="4"></textarea>
+ 
+    <button type="submit" [disabled]="courseForm.invalid">
+      {{ isEditMode ? 'Update' : 'Add' }}
+    </button>
+  </form>
+</div>

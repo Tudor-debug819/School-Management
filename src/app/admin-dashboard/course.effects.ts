@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Firestore, collection, collectionData, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, addDoc, deleteDoc, doc, setDoc } from '@angular/fire/firestore';
 import { catchError, map, mergeMap, of, from } from 'rxjs';
 import {
   loadCourses,
@@ -11,7 +11,10 @@ import {
   addCourseSuccess,
   deleteCourse,
   deleteCourseFailure,
-  deleteCourseSuccess
+  deleteCourseSuccess,
+  updateCourse,
+  updateCourseFailure,
+  updateCourseSuccess
 } from './course.actions';
 import { Course } from './course.model';
 
@@ -31,10 +34,10 @@ export class CourseEffects {
       mergeMap(() => {
         const coursesRef = collection(this.firestore, 'courses');
         return collectionData(coursesRef, { idField: 'id' }).pipe(
-          map(data => {console.log('Courses from Firestore:',data);
-            return loadCoursesSuccess({courses: data as Course[]});
+          map(data => {
+            return loadCoursesSuccess({ courses: data as Course[] });
           })
-            
+
           //   loadCoursesSuccess({ courses: data as Course[] })),
           // catchError(error => of(loadCoursesFailure({ error: error.message })))
         );
@@ -63,6 +66,19 @@ export class CourseEffects {
         return from(deleteDoc(courseDocRef)).pipe(
           map(() => deleteCourseSuccess({ courseId })),
           catchError(error => of(deleteCourseFailure({ error: error.message })))
+        );
+      })
+    )
+  );
+
+  updateCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateCourse),
+      mergeMap(({ course }) => {
+        const courseDocRef = doc(this.firestore, `courses/${course.id}`);
+        return from(setDoc(courseDocRef, course)).pipe(
+          map(() => updateCourseSuccess({ course })),
+          catchError(error => of(updateCourseFailure({ error: error.message })))
         );
       })
     )
