@@ -23,10 +23,13 @@ form {
 label {
   font-weight: 500;
   color: #333;
+  margin-top: 1rem;
+  display: block;
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 0.6rem;
   border: 1px solid #ccc;
@@ -34,10 +37,12 @@ textarea {
   font-size: 1rem;
   background-color: #fafafa;
   transition: border 0.2s ease;
+  margin-top: 0.25rem;
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: #007bff;
   background-color: #fff;
@@ -64,25 +69,24 @@ button:hover:not(:disabled) {
 }
 
 .spinner-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(2px);
-    background-color: rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
-   
-  .spinner {
-    border: 6px solid rgba(255, 255, 255, 0.3);
-    border-top: 6px solid white;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 0.9s linear infinite;
-  }
-  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.spinner {
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top: 6px solid white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 0.9s linear infinite;
+}
