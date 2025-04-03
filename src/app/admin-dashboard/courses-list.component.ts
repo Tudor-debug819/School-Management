@@ -32,15 +32,15 @@ export class CoursesListComponent implements OnInit {
     this.store.dispatch(loadCourses());
   }
 
-  goToAddCourse(){
+  goToAddCourse() {
     this.router.navigate(['/admin/add-course']);
   }
 
-  editCourse(course: Course){
-    console.log("Edit")
+  editCourse(course: Course) {
+    this.router.navigate(['/admin/edit-course', course.id]);
   }
 
-  deleteCourse(courseId: string){
-    this.store.dispatch(deleteCourse({courseId}));
+  deleteCourse(courseId: string) {
+    this.store.dispatch(deleteCourse({ courseId }));
   }
 }
