@@ -23,6 +23,7 @@ export class CourseFormComponent implements OnInit {
     courseId: string | null = null;
     teachers$!: Observable<any[]>;
     students$!: Observable<any[]>;
+    cachedStudents: any[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -62,6 +63,24 @@ export class CourseFormComponent implements OnInit {
                 }
             });
         }
+
+        this.students$.subscribe(data=>{
+            this.cachedStudents = data;
+        })
+    }
+
+    addStudent(studentId: string): void {
+        const currentStudents = this.courseForm.get('studentIds')?.value;
+        if (!currentStudents.includes(studentId)) {
+            currentStudents.push(studentId);
+            this.courseForm.get('studentIds')?.setValue(currentStudents);
+        }
+    }
+
+    removeStudent(studentId: string): void {
+        const currentStudents = this.courseForm.get('studentIds')?.value;
+        const updatedStudents = currentStudents.filter((id: string) => id !== studentId);
+        this.courseForm.get('studentIds')?.setValue(updatedStudents);
     }
 
     onSubmit(): void {
@@ -83,5 +102,21 @@ export class CourseFormComponent implements OnInit {
 
 
         this.router.navigate(['/admin-dashboard']);
+    }
+
+    onStudentSelect(event: Event):
+        void {
+        const target = event.target as HTMLSelectElement;
+        const studentId = target.value;
+        if (studentId) {
+            this.addStudent(studentId);
+            target.selectedIndex = 0;
+        }
+
+    }
+
+    getStudentName(studentId: string): string {
+        const student = this.cachedStudents.find(s => s.id === studentId);
+        return   student?.email || 'Student';
     }
 }
