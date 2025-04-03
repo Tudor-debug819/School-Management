@@ -7,6 +7,7 @@ import { selectAllCourses, selectCourseError, selectCourseLoading } from './cour
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { CourseState } from './course.reducer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses-list',
@@ -20,7 +21,7 @@ export class CoursesListComponent implements OnInit {
   loading$: Observable<boolean>;
   error$: Observable<string | null>;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.courses$ = this.store.select(selectAllCourses);
     this.loading$ = this.store.select(selectCourseLoading);
     this.error$ = this.store.select(selectCourseError);
@@ -29,6 +30,10 @@ export class CoursesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadCourses());
+  }
+
+  goToAddCourse(){
+    this.router.navigate(['/admin/add-course']);
   }
 
   editCourse(course: Course){
