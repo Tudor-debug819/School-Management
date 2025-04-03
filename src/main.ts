@@ -7,10 +7,12 @@ import { environment } from './environments/environment';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './app/auth/auth.effects';
 import { authReducer } from './app/auth/auth.reducer';
+import { CourseEffects } from './app/admin-dashboard/course.effects';
+import { courseReducer } from './app/admin-dashboard/course.reducer';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -19,7 +21,8 @@ bootstrapApplication(AppComponent, {
     provideFirestore(() => getFirestore()),
     provideRouter(routes),
     provideStore({auth:authReducer}),
-    provideEffects([AuthEffects])
+    provideEffects([AuthEffects, CourseEffects]),
+    provideState('courses', courseReducer),
 ]
 });
 
