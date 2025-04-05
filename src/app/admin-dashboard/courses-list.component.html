@@ -13,7 +13,22 @@
 
   <ul *ngIf="courses$ | async as courses; else noCourses" class="course-list">
     <li *ngFor="let course of courses" class="course-item">
-      <span> {{ course.name }}</span>
+      <div class="course-header">
+        <h3>{{ course.name }}</h3>
+      </div>
+
+      <p><strong>Description:</strong> {{ course.description }}</p>
+      <p><strong>Teacher:</strong> {{ getTeacherEmail(course.teacherId) }}</p>
+
+      <div *ngIf="course.studentIds?.length">
+        <strong>Students:</strong>
+        <ul class="student-list">
+          <li *ngFor="let studentId of course.studentIds">
+            {{ getStudentEmail(studentId) }}
+          </li>
+        </ul>
+      </div>
+
       <div class="course-actions">
         <button (click)="editCourse(course)">Edit</button>
         <button (click)="deleteCourse(course.id)">Delete</button>
