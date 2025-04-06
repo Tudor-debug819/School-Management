@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Firestore, collection, collectionData, query, where, doc, collectionGroup, getDocs, setDoc, updateDoc, increment } from '@angular/fire/firestore';
 import { of, from } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as TeacherActions from './teacher.actions';
+import { tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class TeacherEffects {
-    constructor(
-        private actions$: Actions,
-        private firestore: Firestore
-    ) { }
+
+    private actions$ = inject(Actions);
+    private firestore = inject(Firestore);
+    private store = inject(Store)
 
     loadTeacherCourses$ = createEffect(() =>
         this.actions$.pipe(
@@ -21,6 +23,17 @@ export class TeacherEffects {
                 return collectionData(q, { idField: 'id' }).pipe(
                     map(courses => TeacherActions.loadTeacherCoursesSuccess({ courses })),
                     catchError(error => of(TeacherActions.loadTeacherCoursesFailure({ error: error.message })))
+                );
+            })
+        )
+    );
+
+    loadStudentsForEachCourse$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(TeacherActions.loadTeacherCoursesSuccess),
+            mergeMap(({ courses }) => {
+                return courses.map(course =>
+                    TeacherActions.loadCourseStudents({ courseId: course.id })
                 );
             })
         )
