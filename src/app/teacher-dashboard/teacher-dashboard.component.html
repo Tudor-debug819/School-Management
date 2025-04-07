@@ -21,12 +21,27 @@
             <li *ngFor="let student of studentsPerCourse[course.id]">
               <div class="student-info">
                 <span><strong>Email:</strong>{{ student.email }}</span>
-                <span><strong>Grade:</strong>{{ student.grade ?? "N/A" }}</span>
+                <span
+                  ><strong>Grade:</strong>
+                  <input
+                    type="number"
+                    [(ngModel)]="gradeInputs[student.id]"
+                    min="1"
+                    max="10"
+                  />
+                  <button
+                    (click)="updateGrade(course.id, student.id)"
+                  >
+                    Save
+                  </button>
+                </span>
 
                 <span
-                  ><strong>Absent:</strong
-                  >{{ student.absences ? "Yes" : "No" }}</span
-                >
+                  ><strong>Absent:</strong>{{ student.absences ?? 0 }}
+                  <button (click)="incrementAbsence(course.id, student.id)">
+                    +1
+                  </button>
+                </span>
               </div>
             </li>
           </ul>

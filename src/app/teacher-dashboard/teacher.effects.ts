@@ -28,17 +28,17 @@ export class TeacherEffects {
         )
     );
 
-    loadStudentsForEachCourse$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(TeacherActions.loadTeacherCoursesSuccess),
-            mergeMap(({ courses }) => {
-                return courses.map(course =>
-                    TeacherActions.loadCourseStudents({ courseId: course.id })
-                );
-            })
-        )
-    );
-
+    // loadStudentsForEachCourse$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(TeacherActions.loadTeacherCoursesSuccess),
+    //         mergeMap(({ courses }) =>
+    //             from(courses.map(course =>
+    //                 TeacherActions.loadCourseStudents({ courseId: course.id })
+    //             ))
+    //         )
+    //     )
+    // );
+    
     loadCourseStudents$ = createEffect(() =>
         this.actions$.pipe(
             ofType(TeacherActions.loadCourseStudents),
