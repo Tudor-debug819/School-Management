@@ -1,1 +1,23 @@
-<p>student-dashboard works!</p>
+<div class="dashboard-container">
+  <h2>Available Courses</h2>
+
+  <div *ngIf="loading$ | async" class="spinner-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="error$ | async as error" class="error-box">
+    Error: {{ error }}
+  </div>
+
+  <ul *ngIf="courses$ | async as courses; else noCourses">
+    <li *ngFor="let course of courses" class="course-card">
+      <h3>{{ course.name }}</h3>
+      <p><strong>Description:</strong> {{ course.description }}</p>
+      <button (click)="enroll(course.id)">Enroll</button>
+    </li>
+  </ul>
+
+  <ng-template #noCourses>
+    <p>No courses available at the moment.</p>
+  </ng-template>
+</div>
