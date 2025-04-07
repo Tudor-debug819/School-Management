@@ -15,6 +15,7 @@ import { CourseEffects } from './app/admin-dashboard/course.effects';
 import { courseReducer } from './app/admin-dashboard/course.reducer';
 import { teacherReducer } from './app/teacher-dashboard/teacher.reducer';
 import { TeacherEffects } from './app/teacher-dashboard/teacher.effects';
+import { studentReducer } from './app/student-dashboard/student.reducer';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -25,8 +26,8 @@ bootstrapApplication(AppComponent, {
     provideStore({ auth: authReducer }),
     provideEffects([AuthEffects, CourseEffects, TeacherEffects]),
     provideState('courses', courseReducer),
-    provideState('teacher', teacherReducer)
+    provideState('teacher', teacherReducer),
+    provideState('student', studentReducer)
   ]
 });
 
-  
