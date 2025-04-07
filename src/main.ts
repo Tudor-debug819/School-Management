@@ -15,6 +15,8 @@ import { CourseEffects } from './app/admin-dashboard/course.effects';
 import { courseReducer } from './app/admin-dashboard/course.reducer';
 import { teacherReducer } from './app/teacher-dashboard/teacher.reducer';
 import { TeacherEffects } from './app/teacher-dashboard/teacher.effects';
+import { studentReducer } from './app/student-dashboard/student.reducer';
+import { StudentEffects } from './app/student-dashboard/students.effects';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -23,10 +25,10 @@ bootstrapApplication(AppComponent, {
     provideFirestore(() => getFirestore()),
     provideRouter(routes),
     provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects, CourseEffects, TeacherEffects]),
+    provideEffects([AuthEffects, CourseEffects, TeacherEffects, StudentEffects]),
     provideState('courses', courseReducer),
-    provideState('teacher', teacherReducer)
+    provideState('teacher', teacherReducer),
+    provideState('student', studentReducer)
   ]
 });
 
-  
