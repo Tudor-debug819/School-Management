@@ -5,8 +5,13 @@ export const selectStudentState = createFeatureSelector<StudentState>('student')
 
 export const selectAvailableCourses = createSelector(
     selectStudentState,
-    (state: StudentState) => state.courses
+    (state) => {
+        const enrolledIds = new Set(state.enrolledCourses.map(c => c.id));
+        return state.courses.filter(c => !enrolledIds.has(c.id));
+    }
 );
+
+export const selectEnrolledCourses = createSelector(selectStudentState, (state) => state.enrolledCourses);
 
 export const selectStudentLoading = createSelector(
     selectStudentState,

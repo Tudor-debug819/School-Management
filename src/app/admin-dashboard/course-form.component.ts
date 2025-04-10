@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { Course } from './course.model';
 import { CommonModule } from '@angular/common';
 import { selectAllCourses } from './course.selectors';
 import { Observable } from 'rxjs';
-import { collectionData, Firestore } from '@angular/fire/firestore';
+import { collectionData, Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { collection } from 'firebase/firestore';
 import { map } from 'rxjs';
 
@@ -24,13 +24,14 @@ export class CourseFormComponent implements OnInit {
     teachers$!: Observable<any[]>;
     students$!: Observable<any[]>;
     cachedStudents: any[] = [];
+    firestore=inject(Firestore);
 
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private store: Store,
-        private firestore: Firestore
+        //private firestore: Firestore
     ) { }
 
     ngOnInit(): void {
@@ -64,16 +65,16 @@ export class CourseFormComponent implements OnInit {
             });
         }
 
-        this.students$.subscribe(data=>{
+        this.students$.subscribe(data => {
             this.cachedStudents = data;
         })
     }
 
     addStudent(studentId: string): void {
-        const currentStudents = this.courseForm.get('studentIds')?.value;
+        const currentStudents = this.courseForm.get('studentIds')?.value || [];
         if (!currentStudents.includes(studentId)) {
-            currentStudents.push(studentId);
-            this.courseForm.get('studentIds')?.setValue(currentStudents);
+            const updatedStudents = [...currentStudents, studentId];
+            this.courseForm.get('studentIds')?.setValue(updatedStudents);
         }
     }
 
@@ -94,11 +95,26 @@ export class CourseFormComponent implements OnInit {
             course = { ...course, id: this.courseId };
         }
 
+        const studentIds = this.courseForm.value.studentIds || [];
+
         if (this.isEditMode) {
             this.store.dispatch(updateCourse({ course }));
         } else {
             this.store.dispatch(addCourse({ course }));
         }
+
+        studentIds.forEach((studentId: string) => {
+            const student = this.cachedStudents.find(s => s.id === studentId);
+            if (student) {
+                const studentRef = doc(this.firestore, `courses/${course.id}/students/${studentId}`);
+                setDoc(studentRef, {
+                    studentId,
+                    email: student.email,
+                    grade: null,
+                    absences: 0
+                }, { merge: true });
+            }
+        });
 
 
         this.router.navigate(['/admin-dashboard']);
@@ -117,6 +133,6 @@ export class CourseFormComponent implements OnInit {
 
     getStudentName(studentId: string): string {
         const student = this.cachedStudents.find(s => s.id === studentId);
-        return   student?.email || 'Student';
+        return student?.email || 'Student';
     }
 }

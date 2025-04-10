@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Course } from '../admin-dashboard/course.model';
 import { AppState } from '../app.state';
-import { loadAvailableCourses, enrollInCourse } from './student.actions';
+import { loadAvailableCourses, enrollInCourse, loadEnrolledCourses } from './student.actions';
 import { selectAvailableCourses, selectStudentLoading, selectStudentError } from './student.selectors';
 import { selectAuthUser } from '../auth/auth.selectors';
 
@@ -35,6 +35,8 @@ export class StudentDashboardComponent implements OnInit {
       if (user?.uid && user?.email) {
         this.userId = user.uid;
         this.userEmail = user.email;
+        this.store.dispatch(loadEnrolledCourses({ studentId: user.uid }));
+
       }
     });
   }
