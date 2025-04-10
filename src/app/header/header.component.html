@@ -7,6 +7,21 @@
       <li *ngIf="!(isAuthenticated$ | async)">
         <a routerLink="/login">Login</a>
       </li>
+      <li>
+        <a
+          *ngIf="(authUser$ | async)?.role === 'student'"
+          routerLink="/student-dashboard"
+        >
+          Dashboard</a
+        >
+      </li>
+      <li>
+        <a
+          *ngIf="(authUser$ | async)?.role === 'student'"
+          routerLink="/my-courses"
+          >My Courses</a
+        >
+      </li>
       <li *ngIf="isAuthenticated$ | async">
         <button (click)="onLogout()">Logout</button>
       </li>

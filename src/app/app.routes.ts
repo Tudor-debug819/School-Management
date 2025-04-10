@@ -5,6 +5,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { CourseFormComponent } from './admin-dashboard/course-form.component';
+import { MyCoursesComponent } from './student-dashboard/my-courses/my-courses.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,4 +16,5 @@ export const routes: Routes = [
     { path: 'admin/edit-course/:id', component: CourseFormComponent },
     { path: 'teacher-dashboard', component: TeacherDashboardComponent },
     { path: 'student-dashboard', component: StudentDashboardComponent },
+    {path:'my-courses', component: MyCoursesComponent},
 ]

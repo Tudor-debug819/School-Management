@@ -4,6 +4,12 @@
   padding: 2rem;
 }
 
+ul {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
 .course-card {
   padding: 1rem;
   border-radius: 8px;
@@ -12,23 +18,18 @@
   border: 1px solid #ccc;
 }
 
-.course-list{
- max-height: 70vh;
- overflow-y: auto;
- padding-right: 1rem;
- margin-top: 1rem;
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button {
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #007bff;
+  background-color: #ff1e00;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
