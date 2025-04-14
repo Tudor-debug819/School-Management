@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { logout, logoutSuccess, login, loginSuccess, loginFailure } from './auth.actions';
-import { exhaustMap, switchMap, map, catchError } from 'rxjs/operators';
+import { exhaustMap, switchMap, map, catchError, timestamp } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, addDoc, collection, serverTimestamp } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
@@ -24,10 +24,24 @@ export class AuthEffects {
             const uid = userCredential.user.uid;
             const email = userCredential.user.email ?? '';
             const userRef = doc(this.firestore, `users/${uid}`);
+
             return from(getDoc(userRef)).pipe(
-              map(userDoc => {
+              switchMap(userDoc => {
                 const role = userDoc.data()?.['role'];
-                return loginSuccess({ user: { uid, email, role } });
+                const logRef = collection(this.firestore, 'logs');
+
+                const logEntry = {
+                  uid,
+                  email,
+                  role,
+                  timestamp: serverTimestamp()
+                };
+
+                console.log('Loggin user: ',{uid,email,role});
+
+                return from(addDoc(logRef, logEntry)).pipe(
+                  map(() => loginSuccess({ user: { uid, email, role } }))
+                );
               })
             );
           }),
@@ -36,6 +50,7 @@ export class AuthEffects {
       )
     )
   );
+
 
   redirectAfterLogin$ = createEffect(() =>
     this.action$.pipe(
@@ -56,7 +71,7 @@ export class AuthEffects {
         }
       })
     ),
-    { dispatch: false } 
+    { dispatch: false }
   );
 
   logout$ = createEffect(() =>
