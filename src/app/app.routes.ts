@@ -6,6 +6,7 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { CourseFormComponent } from './admin-dashboard/course-form.component';
 import { MyCoursesComponent } from './student-dashboard/my-courses/my-courses.component';
+import { LogsComponent } from './admin-dashboard/logs/logs/logs.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'admin/edit-course/:id', component: CourseFormComponent },
     { path: 'teacher-dashboard', component: TeacherDashboardComponent },
     { path: 'student-dashboard', component: StudentDashboardComponent },
-    {path:'my-courses', component: MyCoursesComponent},
+    { path: 'my-courses', component: MyCoursesComponent },
+    { path: 'logs', component: LogsComponent },
 ]
